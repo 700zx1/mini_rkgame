@@ -1,0 +1,75 @@
+memchr.o: ../.././../gnulib/import/memchr.c \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/stdc-predef.h \
+ ../config.h string.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/string.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/features.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/sys/cdefs.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/bits/wordsize.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/sgidefs.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/gnu/stubs.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/gnu/stubs-o32_hard.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/opt/ext-toolchain/lib/gcc/mips-mti-linux-gnu/6.3.0/include/stddef.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/xlocale.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/bits/string.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/bits/string2.h \
+ stdlib.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/stdlib.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/opt/ext-toolchain/lib/gcc/mips-mti-linux-gnu/6.3.0/include-fixed/mipsel-r2-hard/lib/limits.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/opt/ext-toolchain/lib/gcc/mips-mti-linux-gnu/6.3.0/include-fixed/mipsel-r2-hard/lib/syslimits.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/limits.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/bits/posix1_lim.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/bits/local_lim.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/linux/limits.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/bits/posix2_lim.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/bits/xopen_lim.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/bits/stdio_lim.h
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/stdc-predef.h:
+
+../config.h:
+
+string.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/string.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/features.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/sys/cdefs.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/bits/wordsize.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/sgidefs.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/gnu/stubs.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/gnu/stubs-o32_hard.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/opt/ext-toolchain/lib/gcc/mips-mti-linux-gnu/6.3.0/include/stddef.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/xlocale.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/bits/string.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/bits/string2.h:
+
+stdlib.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/stdlib.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/opt/ext-toolchain/lib/gcc/mips-mti-linux-gnu/6.3.0/include-fixed/mipsel-r2-hard/lib/limits.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/opt/ext-toolchain/lib/gcc/mips-mti-linux-gnu/6.3.0/include-fixed/mipsel-r2-hard/lib/syslimits.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/limits.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/bits/posix1_lim.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/bits/local_lim.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/linux/limits.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/bits/posix2_lim.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/bits/xopen_lim.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/bits/stdio_lim.h:

@@ -1,0 +1,18 @@
+stripslash.o: ../.././gnulib/import/stripslash.c \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/stdc-predef.h \
+ ../config.h ../.././gnulib/import/dirname.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/opt/ext-toolchain/lib/gcc/mips-mti-linux-gnu/6.3.0/include/stdbool.h \
+ /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/opt/ext-toolchain/lib/gcc/mips-mti-linux-gnu/6.3.0/include/stddef.h \
+ ../.././gnulib/import/dosname.h
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot/usr/include/stdc-predef.h:
+
+../config.h:
+
+../.././gnulib/import/dirname.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/opt/ext-toolchain/lib/gcc/mips-mti-linux-gnu/6.3.0/include/stdbool.h:
+
+/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/opt/ext-toolchain/lib/gcc/mips-mti-linux-gnu/6.3.0/include/stddef.h:
+
+../.././gnulib/import/dosname.h:

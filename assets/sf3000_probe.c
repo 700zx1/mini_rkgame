@@ -1,4 +1,3 @@
-
 // sf3000_probe.c - Comprehensive system probe for SF3000/GB350 runtime detection
 #include <fcntl.h>
 #include <unistd.h>
@@ -178,4 +177,9 @@ void _start() {
 
     close(log_fd);
     for (;;);
+}
+
+int main(int argc, char **argv) {
+    _start();
+    return 0;
 }

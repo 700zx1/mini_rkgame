@@ -9,7 +9,7 @@ RUN apt-get update && \
       ca-certificates wget rsync tar file build-essential \
       git pkg-config patch \
       libsdl1.2-dev libasound2-dev libncurses-dev \
-      libgmp-dev libmpfr-dev && \
+      libgmp-dev libmpfr-dev texinfo && \
     rm -rf /var/lib/apt/lists/*
 
 # 2. Download and extract the SF3000 toolchain release
@@ -26,20 +26,19 @@ WORKDIR /opt/mipsel-buildroot-linux-gnu_sdk-buildroot
 RUN chmod +x relocate-sdk.sh && ./relocate-sdk.sh
 
 # 4. Export cross-compile environment permanently
-ENV TOOLBIN="/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/bin/mips-mti-linux-gnu-" \
-    SYSROOT="/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot" \
-    CROSS_COMPILE="/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/bin/mips-mti-linux-gnu-" \
-    CC="${TOOLBIN}gcc" \
-    CXX="${TOOLBIN}g++" \
-    LD="${TOOLBIN}ld" \
-    AS="${TOOLBIN}as" \
-    AR="${TOOLBIN}ar" \
-    RANLIB="${TOOLBIN}ranlib" \
-    STRIP="${TOOLBIN}strip" \
-    CFLAGS="-O2 -march=mips32r2" \
-    CXXFLAGS="-O2 -march=mips32r2" \
-    PATH="/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/bin:${PATH}"
-
+RUN echo 'export TOOLBIN="/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/bin/mips-mti-linux-gnu-"\n\
+export SYSROOT="/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/mipsel-buildroot-linux-gnu/sysroot"\n\
+export CROSS_COMPILE="$TOOLBIN"\n\
+export CC="${TOOLBIN}gcc"\n\
+export CXX="${TOOLBIN}g++"\n\
+export LD="${TOOLBIN}ld"\n\
+export AS="${TOOLBIN}as"\n\
+export AR="${TOOLBIN}ar"\n\
+export RANLIB="${TOOLBIN}ranlib"\n\
+export STRIP="${TOOLBIN}strip"\n\
+#export CFLAGS="-O2 -march=mips32r2"\n\
+#export CXXFLAGS="-O2 -march=mips32r2"\n\
+export PATH="/opt/mipsel-buildroot-linux-gnu_sdk-buildroot/bin:${PATH}"' > /etc/profile.d/toolchain-env.sh && chmod +x /etc/profile.d/toolchain-env.sh
 
 # Add Linux kernel headers build steps
 #WORKDIR /build
@@ -75,4 +74,4 @@ WORKDIR /workspace
 VOLUME /workspace
 
 # Default to an interactive shell
-CMD ["bash"]
+CMD ["bash", "-l"]

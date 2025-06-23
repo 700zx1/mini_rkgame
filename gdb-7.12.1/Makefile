@@ -350,7 +350,7 @@ YACC = bison -y
 FLEX = flex
 LEX = flex
 M4 = m4
-MAKEINFO = /workspace/gdb-7.12.1/missing makeinfo
+MAKEINFO = makeinfo
 EXPECT = expect
 RUNTEST = runtest
 
@@ -364,7 +364,7 @@ MAKEINFOFLAGS = --split-size=5000000
 # Programs producing files for the HOST machine
 # ---------------------------------------------
 
-AS = as
+AS = /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/bin/mips-mti-linux-gnu-as
 AR = /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/bin/mips-mti-linux-gnu-ar
 AR_FLAGS = rc
 CC = /opt/mipsel-buildroot-linux-gnu_sdk-buildroot/bin/mips-mti-linux-gnu-gcc
@@ -384,7 +384,7 @@ GNATBIND = no
 GNATMAKE = no
 
 CFLAGS = -O2 -march=mips32r2
-LDFLAGS = -static
+LDFLAGS = 
 LIBCFLAGS = $(CFLAGS)
 CXXFLAGS = -O2 -march=mips32r2
 LIBCXXFLAGS = $(CXXFLAGS) -fno-implicit-templates

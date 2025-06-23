@@ -63,19 +63,19 @@
 # variables.  Some of them are substituted by autoconf.
 
 TR=tr
-NM=i386-pc-linux-gnu-nm
+NM=nm
 EGREP=egrep
 SED=sed
 CUT=cut
-READELF=i386-pc-linux-gnu-readelf
+READELF=readelf
 SORT=sort
 EXPR=expr
 WC=wc
 UNIQ=uniq
 HEAD=head
 SEQ=seq
-AS=i386-pc-linux-gnu-as
-STRIP=i386-pc-linux-gnu-strip
+AS=as
+STRIP=strip
 TRUE=true
 
 # Sizes for several DOF structures, in bytes.

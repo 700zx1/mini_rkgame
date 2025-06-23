@@ -1,6 +1,7 @@
 
-CC = mipsel-linux-gnu-gcc
-CFLAGS = -nostdlib -static -Os
+# Use CC from environment variables set in Dockerfile
+# CC is expected to be set to the MIPS cross-compiler from /etc/profile.d/toolchain-env.sh
+CFLAGS = -static -Os
 TARGET = sf3000_probe
 SRCS = sf3000_probe.c
 

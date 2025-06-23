@@ -1,0 +1,108 @@
+engine.o: engine.c ../common/sim-inline.c ../common/sim-inline.h \
+ sim-main.h ../common/sim-basics.h config.h ../../include/ansidecl.h \
+ ../../include/gdb/callback.h ../../bfd/bfd.h ../../include/symcat.h \
+ ../../include/gdb/remote-sim.h ../common/sim-config.h \
+ ../common/sim-types.h ../common/sim-bits.h ../common/sim-endian.h \
+ ../common/sim-signal.h ../../include/gdb/signals.h \
+ ../../include/gdb/signals.def ../common/sim-arange.h \
+ ../common/sim-arange.c ../../include/libiberty.h \
+ ../../include/ansidecl.h ../common/sim-basics.h ../common/sim-assert.h \
+ ../common/sim-io.h ../common/sim-utils.h ../common/sim-base.h \
+ ../common/sim-module.h ../common/sim-trace.h ../../include/dis-asm.h \
+ ../common/sim-core.h ../common/sim-events.h ../common/sim-profile.h \
+ ../common/sim-model.h ../common/sim-engine.h ../common/sim-watch.h \
+ ../common/sim-memopt.h ../common/sim-cpu.h ../common/sim-fpu.h cp1.h \
+ ../common/sim-alu.h itable.h idecode.h support.h semantics.h engine.h \
+ ../common/sim-assert.h
+
+../common/sim-inline.c:
+
+../common/sim-inline.h:
+
+sim-main.h:
+
+../common/sim-basics.h:
+
+config.h:
+
+../../include/ansidecl.h:
+
+../../include/gdb/callback.h:
+
+../../bfd/bfd.h:
+
+../../include/symcat.h:
+
+../../include/gdb/remote-sim.h:
+
+../common/sim-config.h:
+
+../common/sim-types.h:
+
+../common/sim-bits.h:
+
+../common/sim-endian.h:
+
+../common/sim-signal.h:
+
+../../include/gdb/signals.h:
+
+../../include/gdb/signals.def:
+
+../common/sim-arange.h:
+
+../common/sim-arange.c:
+
+../../include/libiberty.h:
+
+../../include/ansidecl.h:
+
+../common/sim-basics.h:
+
+../common/sim-assert.h:
+
+../common/sim-io.h:
+
+../common/sim-utils.h:
+
+../common/sim-base.h:
+
+../common/sim-module.h:
+
+../common/sim-trace.h:
+
+../../include/dis-asm.h:
+
+../common/sim-core.h:
+
+../common/sim-events.h:
+
+../common/sim-profile.h:
+
+../common/sim-model.h:
+
+../common/sim-engine.h:
+
+../common/sim-watch.h:
+
+../common/sim-memopt.h:
+
+../common/sim-cpu.h:
+
+../common/sim-fpu.h:
+
+cp1.h:
+
+../common/sim-alu.h:
+
+itable.h:
+
+idecode.h:
+
+support.h:
+
+semantics.h:
+
+engine.h:
+
+../common/sim-assert.h:

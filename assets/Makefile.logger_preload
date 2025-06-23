@@ -1,5 +1,4 @@
 
-CC = mipsel-linux-gnu-gcc
 CFLAGS = -Wall -fPIC -O2
 LDFLAGS = -shared
 TARGET = logger_preload.so
