@@ -1,0 +1,13 @@
+
+CC = mipsel-linux-gnu-gcc
+CFLAGS = -nostdlib -static -Os
+TARGET = sf3000_probe
+SRCS = sf3000_probe.c
+
+all: $(TARGET)
+
+$(TARGET): $(SRCS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(SRCS)
+
+clean:
+	rm -f $(TARGET)

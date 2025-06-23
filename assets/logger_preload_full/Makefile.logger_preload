@@ -1,0 +1,14 @@
+
+CC = mipsel-linux-gnu-gcc
+CFLAGS = -Wall -fPIC -O2
+LDFLAGS = -shared
+TARGET = logger_preload.so
+SRCS = logger_preload.c
+
+all: $(TARGET)
+
+$(TARGET): $(SRCS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(SRCS) $(LDFLAGS) -ldl
+
+clean:
+	rm -f $(TARGET)

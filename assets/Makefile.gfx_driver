@@ -1,0 +1,14 @@
+
+CC = mipsel-linux-gnu-gcc
+CFLAGS = -Wall -O2
+LDFLAGS = -ldl
+TARGET = test_gfx_driver
+SRCS = test_gfx_driver.c gfx_driver_layer.c
+
+all: $(TARGET)
+
+$(TARGET): $(SRCS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(SRCS) $(LDFLAGS)
+
+clean:
+	rm -f $(TARGET)
