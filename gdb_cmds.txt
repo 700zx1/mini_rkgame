@@ -1,0 +1,7 @@
+set pagination off
+break fbdev_draw_frame
+run
+info locals
+info variables
+continue
+quit
