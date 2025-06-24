@@ -253,32 +253,31 @@ void try_visual_on_fb(const char *fbdev) {
         log_line("[VISUAL] 16bpp: wrote 0x07E0 (RGB565 green)");
     } else if (vinfo.bits_per_pixel == 32) {
         uint32_t *fb32 = (uint32_t *)fb;
-        uint32_t test_colors[] = {
-            0x0000FF00, // 0x00RRGGBB (green)
-            0xFF00FF00, // 0xAARRGGBB (green, alpha=0xFF)
-            0x00FF0000, // 0x00BBGGRR (red, for test)
-            0x000000FF, // 0x00RRGGBB (blue, for test)
-            0xFFFFFFFF, // white
-            0xFF000000  // black (alpha=0xFF)
-        };
-        const char *color_names[] = {
-            "0x0000FF00 (00RRGGBB green)",
-            "0xFF00FF00 (AARRGGBB green)",
-            "0x00FF0000 (red test)",
-            "0x000000FF (blue test)",
-            "0xFFFFFFFF (white)",
-            "0xFF000000 (black)"
-        };
-        int ncolors = sizeof(test_colors)/sizeof(test_colors[0]);
-        for (int c = 0; c < ncolors; c++) {
-            for (int i = 0; i < green_pixels; i++)
-                fb32[i] = test_colors[c];
-            char logmsg[128];
-            snprintf(logmsg, sizeof(logmsg), "[VISUAL] %s: 32bpp: wrote %s", fbdev, color_names[c]);
-            log_line(logmsg);
-            msync(fb, screensize, MS_SYNC);
-            usleep(1000000); // 1 second per color
+        // Draw a unique pattern: diagonal lines
+        for (int y = 0; y < vinfo.yres; y++) {
+            for (int x = 0; x < vinfo.xres; x++) {
+                int idx = y * vinfo.xres + x;
+                if (x == y || x == vinfo.xres - y - 1) {
+                    fb32[idx] = 0xFFFF0000; // Red diagonal
+                } else if (x % 50 == 0 || y % 50 == 0) {
+                    fb32[idx] = 0xFF0000FF; // Blue grid
+                } else {
+                    fb32[idx] = 0xFF00FF00; // Green background
+                }
+            }
         }
+        log_line("[VISUAL] 32bpp: drew green with red diagonals and blue grid");
+        msync(fb, screensize, MS_SYNC);
+        // Try panning for fb0
+        if (strcmp(fbdev, "/dev/fb0") == 0) {
+            vinfo.yoffset = 0;
+            if (ioctl(fd, FBIOPAN_DISPLAY, &vinfo) == -1) {
+                log_line("[VISUAL] FBIOPAN_DISPLAY failed on fb0");
+            } else {
+                log_line("[VISUAL] FBIOPAN_DISPLAY succeeded on fb0");
+            }
+        }
+        usleep(5000000); // 5 seconds
     } else {
         log_line("[VISUAL] Unsupported bpp, no color written");
     }
