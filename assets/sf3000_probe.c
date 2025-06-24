@@ -11,6 +11,11 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <linux/input.h>
+#include <sys/mman.h>
+#include <unistd.h>
+#include <dlfcn.h>
+#include <linux/input.h>
+#include <time.h>
 
 #define LOG_FILE "/mnt/sdcard/probe.log"
 
@@ -86,6 +91,37 @@ void probe_input_devices() {
     closedir(dir);
 }
 
+void probe_input_events() {
+    log_line("=== Input Event Test (3s) ===");
+    DIR *dir = opendir("/dev/input");
+    if (!dir) {
+        log_line("No /dev/input directory.");
+        return;
+    }
+    struct dirent *entry;
+    char path[64];
+    while ((entry = readdir(dir)) != NULL) {
+        if (strncmp(entry->d_name, "event", 5) == 0) {
+            snprintf(path, sizeof(path), "/dev/input/%s", entry->d_name);
+            int fd = open(path, O_RDONLY | O_NONBLOCK);
+            if (fd >= 0) {
+                struct input_event ev;
+                time_t start = time(NULL);
+                while (time(NULL) - start < 3) {
+                    ssize_t n = read(fd, &ev, sizeof(ev));
+                    if (n == sizeof(ev)) {
+                        char line[128];
+                        snprintf(line, sizeof(line), "event: type=%d code=%d value=%d", ev.type, ev.code, ev.value);
+                        log_line(line);
+                    }
+                }
+                close(fd);
+            }
+        }
+    }
+    closedir(dir);
+}
+
 void probe_audio_devices() {
     log_line("=== Audio Devices ===");
     const char *audio_paths[] = { "/dev/dsp", "/dev/audio", "/dev/snd/pcmC0D0p" };
@@ -93,6 +129,19 @@ void probe_audio_devices() {
         if (access(audio_paths[i], F_OK) == 0) {
             log_line(audio_paths[i]);
         }
+    }
+}
+
+void probe_audio_output() {
+    log_line("=== Audio Output Test ===");
+    int fd = open("/dev/dsp", O_WRONLY);
+    if (fd >= 0) {
+        char silence[4096] = {0};
+        write(fd, silence, sizeof(silence));
+        log_line("Wrote 4096 bytes of silence to /dev/dsp");
+        close(fd);
+    } else {
+        log_line("Could not open /dev/dsp for writing.");
     }
 }
 
@@ -104,6 +153,20 @@ void probe_storage_mounts() {
         if (stat(paths[i], &st) == 0 && S_ISDIR(st.st_mode)) {
             log_line(paths[i]);
         }
+    }
+}
+
+void probe_filesystem_write() {
+    log_line("=== Filesystem Write Test ===");
+    const char *testfile = "/mnt/sdcard/probe_write_test.tmp";
+    int fd = open(testfile, O_CREAT | O_WRONLY, 0644);
+    if (fd >= 0) {
+        write(fd, "test", 4);
+        close(fd);
+        log_line("Write to /mnt/sdcard successful.");
+        unlink(testfile);
+    } else {
+        log_line("Write to /mnt/sdcard failed.");
     }
 }
 
@@ -135,30 +198,97 @@ void probe_proc_basic() {
     }
 }
 
+void probe_dynamic_loading() {
+    log_line("=== Dynamic Loading Test ===");
+    void *handle = dlopen("/mnt/sdcard/cubegm/cores/vice_x64_libretro.so", RTLD_LAZY);
+    if (handle) {
+        void *sym = dlsym(handle, "retro_init");
+        if (sym) {
+            log_line("Found symbol retro_init in core.");
+        } else {
+            log_line("Could not find symbol retro_init.");
+        }
+        dlclose(handle);
+    } else {
+        log_line("Could not dlopen core.");
+    }
+}
 
-void show_visual_status() {
-    int fd = open("/dev/fb0", O_RDWR);
-    if (fd < 0) return;
+void log_fbinfo(const char *fbdev, struct fb_var_screeninfo *vinfo, struct fb_fix_screeninfo *finfo) {
+    char line[256];
+    snprintf(line, sizeof(line), "[FBINFO] %s: xres=%d yres=%d xres_virtual=%d yres_virtual=%d bpp=%d line_length=%d red(offset=%d len=%d) green(offset=%d len=%d) blue(offset=%d len=%d) transp(offset=%d len=%d) smem_start=0x%lX smem_len=%d", 
+        fbdev, vinfo->xres, vinfo->yres, vinfo->xres_virtual, vinfo->yres_virtual, vinfo->bits_per_pixel, finfo->line_length, 
+        vinfo->red.offset, vinfo->red.length, vinfo->green.offset, vinfo->green.length, vinfo->blue.offset, vinfo->blue.length, vinfo->transp.offset, vinfo->transp.length, (unsigned long)finfo->smem_start, finfo->smem_len);
+    log_line(line);
+}
 
+void try_visual_on_fb(const char *fbdev) {
+    int fd = open(fbdev, O_RDWR);
+    if (fd < 0) {
+        char msg[128];
+        snprintf(msg, sizeof(msg), "[VISUAL] Could not open %s", fbdev);
+        log_line(msg);
+        return;
+    }
     struct fb_var_screeninfo vinfo;
     struct fb_fix_screeninfo finfo;
     ioctl(fd, FBIOGET_FSCREENINFO, &finfo);
     ioctl(fd, FBIOGET_VSCREENINFO, &vinfo);
-
+    log_fbinfo(fbdev, &vinfo, &finfo);
     int screensize = vinfo.yres_virtual * finfo.line_length;
-    uint16_t *fb = (uint16_t *)mmap(0, screensize, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-    if (fb == (void *)-1) {
+    void *fb = mmap(0, screensize, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    if (fb == MAP_FAILED) {
+        char msg[128];
+        snprintf(msg, sizeof(msg), "[VISUAL] mmap failed for %s", fbdev);
+        log_line(msg);
         close(fd);
         return;
     }
-
-    // Fill top 1/4 of screen green (success status)
-    int pixels = (vinfo.xres * vinfo.yres) / 4;
-    for (int i = 0; i < pixels; i++)
-        fb[i] = 0x07E0; // Green RGB565
-
-    munmap((void *)fb, screensize);
+    int visible_pixels = vinfo.xres * vinfo.yres;
+    int green_pixels = visible_pixels; // draw full screen for visibility
+    if (vinfo.bits_per_pixel == 16) {
+        uint16_t *fb16 = (uint16_t *)fb;
+        for (int i = 0; i < green_pixels; i++)
+            fb16[i] = 0x07E0; // Green RGB565
+        log_line("[VISUAL] 16bpp: wrote 0x07E0 (RGB565 green)");
+    } else if (vinfo.bits_per_pixel == 32) {
+        uint32_t *fb32 = (uint32_t *)fb;
+        uint32_t test_colors[] = {
+            0x0000FF00, // 0x00RRGGBB (green)
+            0xFF00FF00, // 0xAARRGGBB (green, alpha=0xFF)
+            0x00FF0000, // 0x00BBGGRR (red, for test)
+            0x000000FF, // 0x00RRGGBB (blue, for test)
+            0xFFFFFFFF, // white
+            0xFF000000  // black (alpha=0xFF)
+        };
+        const char *color_names[] = {
+            "0x0000FF00 (00RRGGBB green)",
+            "0xFF00FF00 (AARRGGBB green)",
+            "0x00FF0000 (red test)",
+            "0x000000FF (blue test)",
+            "0xFFFFFFFF (white)",
+            "0xFF000000 (black)"
+        };
+        int ncolors = sizeof(test_colors)/sizeof(test_colors[0]);
+        for (int c = 0; c < ncolors; c++) {
+            for (int i = 0; i < green_pixels; i++)
+                fb32[i] = test_colors[c];
+            char logmsg[128];
+            snprintf(logmsg, sizeof(logmsg), "[VISUAL] %s: 32bpp: wrote %s", fbdev, color_names[c]);
+            log_line(logmsg);
+            msync(fb, screensize, MS_SYNC);
+            usleep(1000000); // 1 second per color
+        }
+    } else {
+        log_line("[VISUAL] Unsupported bpp, no color written");
+    }
+    munmap(fb, screensize);
     close(fd);
+}
+
+void show_visual_status() {
+    try_visual_on_fb("/dev/fb0");
+    try_visual_on_fb("/dev/fb1");
 }
 
 void _start() {
@@ -169,9 +299,13 @@ void _start() {
     log_line("SF3000 SYSTEM PROBE BEGIN");
     probe_framebuffer();
     probe_input_devices();
+    probe_input_events();      // NEW
     probe_audio_devices();
+    probe_audio_output();      // NEW
     probe_storage_mounts();
+    probe_filesystem_write();  // NEW
     probe_proc_basic();
+    probe_dynamic_loading();   // NEW
     log_line("SF3000 SYSTEM PROBE END");
     show_visual_status();
 

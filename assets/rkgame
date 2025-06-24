@@ -18,4 +18,4 @@ TARGET="/mnt/sdcard/cubegm/rkgame.bin"
 chmod +x "$TARGET"
 
 echo "[INFO] Executing target..." >> "$LOG_FILE"
-LD_PRELOAD="$LOG_SO" "$TARGET" >> "$LOG_FILE" 2>&1
+LD_PRELOAD="$LOG_SO" "$TARGET"
