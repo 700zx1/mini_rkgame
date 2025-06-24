@@ -1,0 +1,21 @@
+#!/bin/sh
+
+LOG_SO="/mnt/sdcard/cubegm/logger_preload.so"
+LOG_FILE="/mnt/sdcard/runtime.log"
+TARGET="/mnt/sdcard/cubegm/rkgame.bin"
+
+{
+    echo "[INFO] Launching with LD_PRELOAD=$LOG_SO"
+    echo "[INFO] Current working directory: $(pwd)"
+    echo "[INFO] Checking if $LOG_SO exists:"
+    ls -l "$LOG_SO"
+    echo "[INFO] Checking if $TARGET exists:"
+    ls -l "$TARGET"
+    echo "[INFO] Environment:"
+    env
+} > "$LOG_FILE" 2>&1
+
+chmod +x "$TARGET"
+
+echo "[INFO] Executing target..." >> "$LOG_FILE"
+LD_PRELOAD="$LOG_SO" "$TARGET" >> "$LOG_FILE" 2>&1
